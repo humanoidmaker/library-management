@@ -15,6 +15,7 @@ async def init_db():
     await db.books.create_index("isbn", unique=True)
     await db.members.create_index("phone", unique=True)
     await db.members.create_index("membership_number", unique=True)
+    await db.issued_books.create_index([("member_id", 1), ("status", 1)])
     if not await db.settings.find_one({"key": "library_name"}):
         await db.settings.insert_many([
             {"key": "library_name", "value": "BookStack Library"},
